@@ -1,12 +1,8 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
     ];
 
@@ -15,12 +11,8 @@
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.hostName = "lt-nix";
+  # networking.wireless.enable = true;  
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -88,8 +80,9 @@
     description = "Sebastian Stork";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
-    #  thunderbird
+      #firefox
+      #bitwarden
+      #brave
     ];
   };
 
@@ -104,7 +97,19 @@
     git
     htop
     fastfetch
+    firefox
+    brave
+    bitwarden
   ];
+
+  environment.shellAliases = {
+    nixrebuild = "sudo nixos-rebuild switch -I nixos-config=/home/$USER/.dotfiles/nixos/configuration.nix";
+    nixedit = "nano ~/.dotfiles/nixos/configuration.nix";
+  };
+
+  programs.bash.shellAliases = {
+    la = "ls -lA";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -115,7 +120,7 @@
   # };
 
   # List services that you want to enable:
-
+  services.flatpak.enable = true;
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
@@ -132,5 +137,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }
