@@ -80,9 +80,12 @@
     description = "Sebastian Stork";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      #firefox
-      #bitwarden
-      #brave
+      firefox
+      bitwarden
+      brave
+      discord
+      vscode
+      vlc
     ];
   };
 
@@ -92,23 +95,18 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    nano
     vim
     neovim
+    notepadqq
     git
     htop
     fastfetch
-    firefox
-    brave
-    bitwarden
   ];
 
   environment.shellAliases = {
     nixrebuild = "sudo nixos-rebuild switch -I nixos-config=/home/$USER/.dotfiles/nixos/configuration.nix";
     nixedit = "nano ~/.dotfiles/nixos/configuration.nix";
-  };
-
-  programs.bash.shellAliases = {
-    la = "ls -lA";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
